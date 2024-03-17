@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import time
+from matplotlib.animation import FuncAnimation
+
+def midpoint(Px, Py):
+    return (((Px[0] + Py[0]) / 2), ((Px[1] + Py[1]) / 2))
 
 def QuadraticBezierCurve(P0, P1, P2, iterations):
     curve = []
@@ -22,14 +25,15 @@ def QuadraticBezierCurve(P0, P1, P2, iterations):
     
     return curve
 
-def plotBezierCurve(curve):
-    x_curve, y_curve = zip(*curve)
+def update(frame, curves):
+    plt.cla()  # Hapus gambar sebelumnya
+    iteration_curve = curves[frame]
+    x_curve, y_curve = zip(*iteration_curve)
     plt.plot(x_curve, y_curve, '-o')
-    plt.title('Quadratic Bezier Curve')
+    plt.title('Quadratic Bezier Curve (Iteration {})'.format(frame))
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.grid(True)
-    plt.show()
 
 def main():
     # Input: Tiga pasang titik
@@ -46,18 +50,16 @@ def main():
     P2 = np.array([float(_x.strip()), float(_y.strip())])
 
     # Input: Jumlah iterasi
-    iterations = int(input("Masukkan Jumlah Iterasi: "))
+    iterations = 2
 
-    start_time = time.time()
-    curve = QuadraticBezierCurve(P0, P1, P2, iterations)
-    end_time = time.time()
+    curves = []
+    for i in range(iterations):
+        curve = QuadraticBezierCurve(P0, P1, P2, i+1)
+        curves.append(curve)
 
-    # Output: Hasil kurva Bézier
-    plotBezierCurve(curve)
-
-    # Output: Waktu eksekusi program
-    execution_time = end_time - start_time
-    print("Execution time:", execution_time, "seconds")
+    fig = plt.figure()
+    ani = FuncAnimation(fig, update, fargs=(curves,), frames=range(iterations), repeat=False)
+    plt.show()
 
 if __name__ == "__main__":
     main()
