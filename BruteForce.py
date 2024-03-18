@@ -7,30 +7,17 @@ def midpoint(Px, Py):
 
 def QuadraticBezierCurve(P0, P1, P2, iterations):
     curve = []
-    
-    if iterations == 0:
-        curve.extend([P0, P2])
-    else:
-        # Hitung titik kontrol baru
-        Q0 = (P0 + P1) / 2
-        Q1 = (P1 + P2) / 2
-        R0 = (Q0 + Q1) / 2
-        
-        # Rekursi ke segmen kiri dan kanan
-        left_curve = QuadraticBezierCurve(P0, Q0, R0, iterations - 1)
-        right_curve = QuadraticBezierCurve(R0, Q1, P2, iterations - 1)
-        
-        # Gabungkan hasil dari kedua segmen
-        curve = left_curve[:-1] + right_curve
-    
+    for i in range(iterations + 1):
+        t = i / iterations
+        curve.append((1 - t)**2 * P0 + 2 * (1 - t) * t * P1 + t**2 * P2)
     return curve
 
 def update(frame, curves):
-    plt.cla()  # Hapus gambar sebelumnya
+    plt.cla()  #Hapus Gambar Sebelumnya
     iteration_curve = curves[frame]
     x_curve, y_curve = zip(*iteration_curve)
     plt.plot(x_curve, y_curve, '-o')
-    plt.title('Quadratic Bezier Curve (Iteration {})'.format(frame))
+    plt.title('Quadratic Bezier Curve (Iteration {})'.format(frame+1))
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.grid(True)
@@ -50,7 +37,7 @@ def main():
     P2 = np.array([float(_x.strip()), float(_y.strip())])
 
     # Input: Jumlah iterasi
-    iterations = 2
+    iterations = int(input("Masukkan Jumlah iterasi: "))
 
     curves = []
     for i in range(iterations):
