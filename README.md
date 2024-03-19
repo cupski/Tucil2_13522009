@@ -35,7 +35,7 @@ git clone https://github.com/cupski/Tucil2_13522009.git
 ```
 pindahkan direktori folder yang berisi kode python
 ```shell
-cd Tucil1_13522009
+cd Tucil2_13522009
 ```
 ```shell
 cd src
