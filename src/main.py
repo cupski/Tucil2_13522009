@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from src.DnC import DnC
-from src.BruteForce import BruteForce
+from DnC import DnC
+from BruteForce import BruteForce
 
 def update(frame, curves, P0, P1, P2):
     plt.cla()  # Hapus gambar sebelumnya
